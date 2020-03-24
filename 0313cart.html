@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>购物车</title>
+</head>
+<style>
+  .product-num {
+    display: inline-block;
+    width: 60px;
+  }
+</style>
+<body>
+  <table border="1">
+    <thead>
+        <tr>
+          <th><input type="checkbox" id="checkall"></th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+          </tr>
+    </thead>
+    <tbody id="tbody">
+            <!-- 由JS生成的数据 -->
+    </tbody>
+    
+  </table>
+</body>
+<script src="./js/data.js"></script>
+<script>
+    // 模拟数据
+    let xhrData = cartInfo.data.cartModels;
+    // 商品对应的tr
+    let productTr = ``;
+    // 总计对应的那一行
+    let totalTr = ``;
+    let totalNum = 0;
+    let totalPrice = 0;
+    // 购物车中的商品
+    for(let index = 0;index < xhrData.length; index ++) {
+      productTr += 
+        `<tr>
+            <td><input type="checkbox" class="check-item"></td>
+            <td>${xhrData[index].name}</td>
+            <td class=product-price>${xhrData[index].price.toFixed(2)}</td>
+            <td>
+              <button class="btn" data-index=${index} data-type=reduce>-</button>
+              <input class=product-num data-index=${index} value=${xhrData[index].num}>
+              <button class="btn" data-index=${index} data-type=add>+</button>
+            </td>
+            <td class=product-sum>${xhrData[index].sum.toFixed(2)}</td>
+          </tr>
+        `;
+      totalNum += xhrData[index].num;
+      totalPrice += xhrData[index].sum;
+    }
+    // 总计对应的一行
+    totalTr = 
+      `<tr>
+          <td colspan=3>总计</td>
+          <td id=totalnum>${0}</td>
+          <td id=totalprice>${0.00}</td>
+        </tr>
+      `
+    tbody.innerHTML = productTr + totalTr;
+    
+    // 修改购物车的商品数量
+    // 获取商品数量
+    let productNum = document.querySelectorAll('.product-num');
+    // 获取商品单价
+    let productPrice = document.querySelectorAll('.product-price');
+    // 获取商品小计
+    let productSum = document.querySelectorAll('.product-sum');
+    // 循环，给每一个商品数量输入框绑定事件
+    for(let i = 0; i < productNum.length; i ++) {
+      productNum[i].onchange = function(e) {
+        computed(this.dataset.index)
+      }
+    }
+
+    // 点击按钮，修改数量
+    let btns = document.querySelectorAll('.btn');
+    for(let i = 0; i < btns.length; i ++) {
+      btns[i].onclick = function() {
+        let proIndex = this.dataset.index;
+        // 减号
+        if(this.dataset.type == 'reduce') {
+          productNum[proIndex].value > 1 ? productNum[proIndex].value -- : ''
+        }else if(this.dataset.type == 'add') {
+          // 加号
+          productNum[proIndex].value ++
+        }
+        // 重新计算数据
+        computed(proIndex);
+      }
+    }
+    // 统一计算
+    function computed(i) {
+      let num = productNum[i].value
+      // 计算小计
+      let sum = (productPrice[i].innerHTML * num).toFixed(2);
+      productSum[i].innerHTML = sum;
+      // 计算总计
+      let newTotalNum = 0,newTotalPrice = 0;
+      for(let index = 0; index < productNum.length; index ++) {
+        newTotalNum += parseInt(productNum[index].value);
+        newTotalPrice += Number(productNum[index].value * productPrice[index].innerHTML);
+      }
+      // 更新DOM
+      totalnum.innerHTML = newTotalNum;
+      totalprice.innerHTML = newTotalPrice;
+    }
+    // 全选-点击全选按钮
+    let checkItem = document.querySelectorAll('.check-item');
+    checkall.onchange = function() {
+      let flag = this.checked;
+      checkItem.forEach((item) => {
+        item.checked = flag
+      });
+      // 更新总计
+      updatedTotal()
+    }
+    // 全选-点击商品的按钮
+    for(let index = 0; index < checkItem.length; index ++) {
+      checkItem[index].onchange = function() {
+        // 用来记录勾选的数量
+        let checkNum = 0;
+        checkItem.forEach((item) => {
+          item.checked ? checkNum ++ : ``
+        })
+        checkall.checked = checkNum == checkItem.length;
+        // 更新总计
+        updatedTotal()
+      }
+    }
+    // 更新总计
+    function updatedTotal() {
+      // debugger
+      let newTotalNum = 0;
+      let newTotalPrice = 0;
+      for (let index = 0; index < checkItem.length; index ++) {
+        if(checkItem[index].checked) {
+          newTotalNum += Number(productNum[index].value);
+          // debugger
+          newTotalPrice += 
+            Number((document.querySelectorAll('.product-price')[index].innerHTML
+            *
+            productNum[index].value).toFixed(2));
+        }
+      }
+      totalnum.innerHTML = newTotalNum;
+      totalprice.innerHTML = newTotalPrice;
+    }
+</script>
+</body>
+</html>

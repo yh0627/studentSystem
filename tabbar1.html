@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html{
+      font-size: 16px;
+    }
+    body,div,p,input {
+      margin: 0;
+      padding: 0;
+    }
+    /* reset CSS end */
+    .tabbar {
+      margin-left: 100px;
+    }
+    .btn {
+      float: left;
+      border: 1px solid #ccc;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      padding: 5px 15px;
+      cursor: pointer;
+      background-color: orange;
+      color: #fff;
+    }
+    .clear {
+      clear: both;
+    }
+    #content {
+      width: 20rem;
+      height: 300px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      background:linear-gradient(to bottom, #56a5f1,#fff);
+      position: relative;
+      top: -1px;
+      z-index: -1;
+    }
+    .checked {
+      background-color: #56a5f1;
+      border-bottom: 1px solid transparent;
+    }
+    .id {
+      display: block;
+      width: 300px;
+      height: 30px;
+      line-height: 30px;
+      margin: 20px auto;
+      font-size: 16px;
+      padding-left: 10px;
+      border-radius: 4px;
+      border: 2px solid #56a5f1;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <input class="id" type="text" autofocus placeholder="请输入音乐的ID">
+  <div class="tabbar">
+    <div class="btn checked">首页</div>
+    <div class="btn">音乐</div>
+    <div class="btn">新闻</div>
+    <div class="clear"></div>
+    <div id="content"></div>
+  </div>
+  <script>
+    let homeContent = `这是首页的内容`;
+    let musicContent = `这是音乐的内容`;
+    let newsContent = `这是新闻的内容`;
+    let textContent = [];
+    textContent.push(homeContent,musicContent,newsContent);
+
+    // 显示默认内容
+    content.innerHTML = textContent[0];
+
+    // 点击切换
+    let btn = document.querySelectorAll('.btn');
+    // 保存当前激活的按钮
+    let checkedBtn = btn[0]
+    for(let i=0;i<btn.length;i++) {
+      let obj = btn[i];
+      obj.btnIndex = i;
+      obj.onclick = function(e) {
+        // 修改显示内容
+        content.innerHTML = textContent[e.target.btnIndex];
+        // 修改样式
+        checkedBtn.classList.remove('checked');
+        this.classList.add('checked');
+        checkedBtn = e.target;
+      }
+    }
+
+  </script>
+</body>
+</html>

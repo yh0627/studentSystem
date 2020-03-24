@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 新增label标签以及对应内容
+        // 注意innerHTML和innerTEXT的区别
+        let label = document.createElement('label');
+        label.innerHTML = '<mark>请选择省份</mark>';
+        document.body.appendChild(label);
+        // 新增省份的select标签，通过循环写入内容
+        let proSelect = document.createElement('select');
+        let proArr = ['河南省','浙江省','江苏省','广东省']
+        for(let i = 0;i <proArr.length;i++){
+            let option = document.createElement('option');
+            option.innerHTML = proArr[i];
+            option.value = i;
+            proSelect.appendChild(option);
+        }
+        document.body.appendChild(proSelect);
+            // 准备城市数据，是一个二维数组
+        let citySelect = document.createElement('select');
+        let cityArr = [];
+        let henanArr = ['郑州','驻马店','周口','南阳'];
+        let zhejiangArr = ['杭州','温州','宁波','丽水'];
+        let jiangshuArr = ['南京','苏州','无锡','常州'];
+        let guangdongArr = ['广州','深圳','珠海','惠州'];
+        cityArr.push(henanArr);
+        cityArr.push(zhejiangArr);
+        cityArr.push(jiangshuArr);
+        cityArr.push(guangdongArr);
+        console.log(cityArr);
+        // 显示默认数据，index为0
+        for(let i = 0;i <cityArr[0].length;i++){
+            let option = document.createElement('option');
+            option.innerHTML = cityArr[0][i];
+            citySelect.appendChild(option);
+        }
+        document.body.appendChild(citySelect);
+        // 响应用户操作
+        proSelect.onchange = function(event){
+
+            let opts = citySelect.children; 
+            // 删除旧城市
+       for(let i = opts.length-1; i >= 0;i--){
+           citySelect.removeChild(opts[i]);
+       }
+       document.body.appendChild(citySelect);
+         // 增加新城市
+         for(let i =0;i< cityArr[event.target.value].length;i++){
+             let option = document.createElement('option');
+             option.innerHTML = cityArr[event.target.value][i];
+             citySelect.appendChild(option);
+         }
+        }
+           
+    </script>
+</body>
+</html>

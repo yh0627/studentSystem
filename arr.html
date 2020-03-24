@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九九乘法表</title>
+</head>
+<style>
+   .span {
+      margin: 0 15px;
+    }
+    #table {
+      margin: 20px;
+      width: 250px;
+      border: 1px solid #999;
+    }
+    .hero {
+      display: inline-block;
+      width: 60px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-left: 1px solid #999;
+      padding: 0;
+    }
+    .hero:first-child {
+      border-left: none;
+    }
+    .row {
+      border-bottom: 1px solid #999;
+    }
+    .row:nth-child(2n) {
+      background-color: #f0f0f0;
+    }
+    .row:last-child {
+      border-bottom: none;
+    }
+</style>
+<body>
+    <div id="div1"></div>
+    <table id="table"></table>
+    <script>
+      for(var i=1;i<=9;i++){
+           for(var j=1;j<=i;j++){
+               document.write(j+"*"+i+"="+j*i+"&nbsp;&nbsp;&nbsp;&nbsp");
+           }
+           document.write("<br>");
+      }
+
+    let txt = ``;
+    for(let row=1;row<=9;row++){
+        txt +=`<div>`;
+        for(let col=1;col<=row;col++){
+            txt +=`<span class=col>${col}*${row}=${col*row}</span>`;
+        }
+        txt +=`<div>`
+    }
+    div1.innerHtml = txt;
+    
+
+    let stuArr = [
+      ['宋江','卢俊义','吴用','公孙胜'],
+      ['关胜','林冲','柴进','鲁智深'],
+      ['孙二娘','扈三娘','顾大嫂','潘金莲'],
+      ['高俅','蔡京','童贯','宋徽宗'],
+    ];
+    let heroText = '';
+    for(let row=0;row<stuArr.length;row ++) {
+      heroText += `<tr class=row>`
+      for(let col=0;col<4;col ++) {
+        heroText += `<td class=hero>${stuArr[row][col]}</td>`;
+      }
+      heroText += `</tr>`;
+    }
+    table.innerHTML = heroText;
+
+    </script>
+   
+</body>
+</html>

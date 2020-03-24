@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮播</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #silder {
+      width: 600px;
+      height: 500px;
+      margin: 0 auto;
+      /* border: 1px solid #56a5f1; */
+      position: relative;
+      overflow: hidden;
+    }
+    .item {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      transition: left 0.7s ease-in-out;
+    }
+    #div {
+      font-size: 40px;
+    }
+    /* 小圆点的统一样式 */
+    .page-control {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 20px;
+      cursor: pointer;
+    }
+    /* 小箭头的统一样式 */
+    .arrow {
+      width: 50px;
+      height: 50px;
+      background-color: rgba(255, 255, 255, 0.2);
+      position: absolute;
+      top: 225px;
+      z-index: 10;
+      border-radius: 50%;
+      cursor: pointer;
+      background-image: url('./image/slide_next.png');
+      background-position: -5px center;
+    }
+    .right-arrow{
+      right: 0;
+      background-position: 55px center;
+    }
+  </style>
+</head>
+<body>
+  <div id="silder">
+    <img class="item" src="./image/002.jpg" alt="">
+    <img class="item" src="./image/001.jpg" alt="">
+    <img class="item" src="./image/003.jpg" alt="">
+    <img class="item" src="./image/004.jpg" alt="">
+    <img class="item" src="./image/002.jpg" alt="">
+
+  </div>
+  <!-- <div id="div">777</div> -->
+  <script>
+    // div.style.cssText = 'font-size: 77px; color: red; font-weight: 900;';
+    // 获取父容器的宽度
+    let sWidth = silder.clientWidth;
+    // 初始化
+    let imgs = document.querySelectorAll('.item');
+    for(let index = 0; index < imgs.length; index ++) {
+      imgs[index].style.left = index * sWidth + 'px';
+    }
+    // 当前显示的图片序号
+    let page = 0;
+
+    // 增加小圆点
+    for(let index=0;index<imgs.length-1; index ++) {
+      let div = document.createElement('div');
+      silder.appendChild(div);
+      div.classList.add('page-control');
+      div.style.left = (sWidth/2 + index*20)-((imgs.length-1)*10)/2-((imgs.length-2)*10)/2+'px';
+    }
+
+    var timer = setInterval(function() {
+      computed()
+    }, 3000)
+
+    // 增加小箭头
+    let leftArrow = document.createElement('div');
+    silder.appendChild(leftArrow);
+    leftArrow.classList.add('arrow');
+    let rightArrow = document.createElement('div');
+    silder.appendChild(rightArrow);
+    rightArrow.classList.add('arrow','right-arrow');
+
+    // 给小箭头增加事件监听
+    leftArrow.onclick = function() {
+      page ++
+      if(page>imgs.length-1) {
+        page = imgs.length-1
+      }
+      computed();
+      clearTimer(timer);
+      timer = setInterval(function() {
+        computed()
+      }, 3000)
+    }
+    rightArrow.onclick = function() {
+      page --
+      if(page<0) {
+        page = 0
+      }
+      moveSlider()
+      clearInterval(timer)
+      timer = setInterval(function() {
+      computed()
+    }, 3000)
+    }
+    // 清除老的定时器
+    function clearTimer(t) {
+      clearInterval(t)
+    }
+
+    // 处理小圆点
+    var pageControl = document.querySelectorAll('.page-control');
+    for(let index = 0;index < pageControl.length; index ++) {
+      // 给每一个div增加index属性
+      pageControl[index].index = index;
+      pageControl[index].onclick = function(e) {
+        console.log(e.target.index);
+        page = e.target.index;
+        moveSlider();
+      }
+    }
+    // 计算如何切换图片
+    function computed() {
+      page ++
+      if(page>imgs.length-1) {
+        page = imgs.length-1
+      }
+      moveSlider()
+    }
+    // 执行图片的切换
+    function moveSlider() {
+      for(let index = 0; index < imgs.length; index ++) {
+        imgs[index].style.left = (index-page) * sWidth + 'px';
+      }
+      // 播放到最后一张时，所有图片复位
+      if(page == imgs.length-1){
+        setTimeout(() => {
+          page = 0;
+          // 播放到最后一张时，所有图片复位
+          for(let index = 0; index < imgs.length; index ++) {
+            imgs[index].style.transition = 'none';
+            imgs[index].style.left = index * sWidth + 'px';
+          }
+          setTimeout(function() {
+            for(let index = 0; index < imgs.length; index ++) {
+              imgs[index].style.transition = 'left 0.7s ease-in-out';
+            }
+          },100)
+        }, 700) 
+      }
+      setBgColor(page);
+    }
+    function setBgColor(num) {
+      for(let index = 0;index<pageControl.length;index++) {
+        pageControl[index].style.backgroundColor = '';
+        if(num == 4) {
+          pageControl[0].style.backgroundColor = '#fff';
+        }else {
+          pageControl[num].style.backgroundColor = '#fff';
+        }
+      }
+    }
+    // 小圆点的着色
+    setBgColor(0);
+  </script>
+</body>
+</html>

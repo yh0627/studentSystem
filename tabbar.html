@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+   .title {
+     float: left;
+     cursor: pointer;
+     padding: 5px 20px;
+     border: 1px solid #ccc;
+     border-top-left-radius: 6px;
+     border-top-right-radius: 6px;
+     background-color: orange;
+     color: honeydew;
+   }
+   .active {
+     background-color: #abd;
+     border-bottom: 1px solid transparent;
+   }
+   .clear {
+     clear: both;
+   }
+   #content {
+    width: 500px;
+    height: 500px;
+    padding: 10px;
+    position: relative;
+    top: -1px;
+    z-index: -1;
+    border: 1px solid #ccc;
+    background: linear-gradient(to bottom, #abd, #ffffff);
+   }
+   .input {
+     display: block;
+     width: 400px;
+     height: 40px;
+     line-height: 40px;
+     margin: 0 auto;
+     border-radius: 6px;
+     border: 2px solid #56a5f1;
+     padding-left: 20px;
+     font-size: 18px;
+     color: #666;
+     outline: none;
+   }
+  </style>
+</head>
+<body>
+  <input type="text" class="input" placeholder="请输入音乐ID" autofocus>
+  <div class="title song active">单曲</div>
+  <div class="title lyric">歌词</div>
+  <div class="title playlist">其他</div>
+  <div class="clear"></div>
+  <div id="content"></div>
+  <script>
+    let contentList = [];
+    let indexPage = `这是单曲的内容`;
+    let newsPage = `这是歌词的内容`;
+    let musicPage = `这是其他的内容`;
+    contentList.push(indexPage, newsPage, musicPage);
+    // 默认显示首页内容
+    content.innerHTML = contentList[0]
+
+    // 选中按钮
+    let btns = document.querySelectorAll('.title');
+
+    // 获取当前选中的元素
+    let currentBtns = btns[0]
+
+    for(let i=0;i < btns.length; i ++) {
+      // 通过for循环给每一个按钮增加属性并绑定事件
+      let obj = btns[i];
+      // 新增btnIndex属性，作为编号
+      obj.btnIndex = i;
+      // 绑定单击事件
+      obj.onclick = function(e) {
+        // 替换对应的内容
+        content.innerHTML = contentList[e.target.btnIndex];
+        // 移除class
+        currentBtns.classList.remove('active');
+        // e.target.classList.add('active');
+        // 给当前元素增加class
+        this.classList.add('active');
+        // 更新当前元素
+        currentBtns = e.target
+      }
+    }
+
+  </script>
+</body>
+</html>

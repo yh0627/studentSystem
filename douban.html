@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      width: 375px;
+      margin: 0px;
+      padding: 0;
+    }
+
+    .top {
+      background-color: #00B51D;
+      padding-bottom: 20px;
+    }
+
+    .top-title {
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-search {
+      display: block;
+      width: 340px;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 auto;
+      border-radius: 4px;
+      outline: none;
+      border: none;
+    }
+
+    .theaters {
+      margin-left: 75px;
+    }
+
+    .item {
+      float: left;
+    }
+
+    .mov-pic {
+      display: block;
+      width: 75px;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top">
+    <p class="top-title">首页</p>
+    <input class="top-search" type="text" placeholder="搜索">
+  </div>
+  <div class="content">
+    <div class="theaters">
+      <span>影院热映</span>
+      <span>查看更多</span>
+      <div class="movse-list"></div>
+    </div>
+  </div>
+  <script src="./js/jquery-3.3.1.min.js"></script>
+  <script src="./js/xhr.js"></script>
+  <script>
+    $(function () {
+
+      let arr = [
+        {
+        "rating": {
+          "max": 10,
+          "average": 8.5,
+          "details": {
+            "1": 38.0,
+            "3": 3197.0,
+            "2": 228.0,
+            "5": 10241.0,
+            "4": 13092.0
+          },
+          "stars": "45",
+          "min": 0
+        },
+        "genres": ["剧情", "战争"],
+        "title": "1917",
+        "casts": [{
+          "avatars": {
+            "small": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1494063833.48.jpg",
+            "large": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1494063833.48.jpg",
+            "medium": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1494063833.48.jpg"
+          },
+          "name_en": "George MacKay",
+          "name": "乔治·麦凯",
+          "alt": "https:\/\/movie.douban.com\/celebrity\/1032148\/",
+          "id": "1032148"
+        }, {
+          "avatars": {
+            "small": "https://img9.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1433819011.4.jpg",
+            "large": "https://img9.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1433819011.4.jpg",
+            "medium": "https://img9.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1433819011.4.jpg"
+          },
+          "name_en": "Dean-Charles Chapman",
+          "name": "迪恩·查尔斯·查普曼",
+          "alt": "https:\/\/movie.douban.com\/celebrity\/1341989\/",
+          "id": "1341989"
+        }, {
+          "avatars": {
+            "small": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1497.jpg",
+            "large": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1497.jpg",
+            "medium": "https://img1.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p1497.jpg"
+          },
+          "name_en": "Colin Firth",
+          "name": "科林·费尔斯",
+          "alt": "https:\/\/movie.douban.com\/celebrity\/1031223\/",
+          "id": "1031223"
+        }],
+        "durations": ["119分钟"],
+        "collect_count": 141488,
+        "mainland_pubdate": "",
+        "has_video": false,
+        "original_title": "1917",
+        "subtype": "movie",
+        "directors": [{
+          "avatars": {
+            "small": "https://img3.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p271.jpg",
+            "large": "https://img3.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p271.jpg",
+            "medium": "https://img3.doubanio.com\/view\/celebrity\/s_ratio_celebrity\/public\/p271.jpg"
+          },
+          "name_en": "Sam Mendes",
+          "name": "萨姆·门德斯",
+          "alt": "https:\/\/movie.douban.com\/celebrity\/1048021\/",
+          "id": "1048021"
+        }],
+        "pubdates": ["2019-12-25(美国)", "2020-01-10(英国)", "2020(中国大陆)"],
+        "year": "2019",
+        "images": {
+          "small": "https://img1.doubanio.com\/view\/photo\/s_ratio_poster\/public\/p2570243317.jpg",
+          "large": "https://img1.doubanio.com\/view\/photo\/s_ratio_poster\/public\/p2570243317.jpg",
+          "medium": "https://img1.doubanio.com\/view\/photo\/s_ratio_poster\/public\/p2570243317.jpg"
+        },
+        "alt": "https:\/\/movie.douban.com\/subject\/30252495\/",
+        "id": "30252495"
+      }]
+      // console.log(arr.length);
+    
+      $('.top-search').click(function () {
+        $.ajax({
+          url: new_movies,
+          success: function (res) {
+            // console.log(res.subjects)
+            let arr = res.subjects
+            let text = ``;
+            for(let i=0;i<arr.length;i ++){
+              text += 
+              `<div class="item">
+                <img class="mov-pic" src=${arr[i].images.small} alt="">
+                <span>${arr[i].title}</span>
+              </div>`
+            }
+            $('.movse-list').html(text);
+          }
+        })
+      })
+
+    })
+  </script>
+</body>
+
+</html>

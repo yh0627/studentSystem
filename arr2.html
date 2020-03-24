@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .col {
+      margin: 10px;
+    }
+    #div2 {
+      margin: 20px 0;
+      width: 210px;
+      border: 1px solid #eee;
+    }
+    .hero {
+      display: inline-block;
+      width: 50px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-left: 1px solid #eee;
+    }
+    .hero:first-child {
+      border-left: none;
+    }
+    .line {
+      border-top: 1px solid #eee;
+    }
+    .line:first-child{
+      border-top: none
+    }
+    .line:nth-child(2n+1) {
+      background-color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div id="div1"></div>
+  <div id="div2"></div>
+  <!-- <table id="table" border="1"></table> -->
+  <script>
+    // let txt = ``;
+    // for(let row=1;row<=9;row ++) {
+    //   txt +=`<div>`;
+    //   for(let col=1;col<=row;col ++) {
+    //     txt += `<span class=col>${col}*${row}=${col*row}</span>`;
+    //   }
+    //   txt +=`</div>`
+    // }
+    // div1.innerHTML = txt;
+
+    let heroArr = [
+      ['宋江','卢俊义','吴用','公孙胜'],
+      ['关胜','林冲','柴进','鲁智深'],
+      ['孙二娘','扈三娘','顾大嫂','潘金莲'],
+      ['高俅','蔡京','童贯','宋徽宗'],
+    ]
+    let heroText = ``;
+    for(let row=0;row<heroArr.length;row ++) {
+      heroText += `<div class=line>`
+      for(let col=0;col<heroArr[row].length;col ++) {
+        heroText += `<span class=hero>${heroArr[row][col]}</span>`
+      }
+      heroText += `</div>`
+    }
+    div2.innerHTML = heroText;
+    setTimeout(() => {
+      console.log(6)
+    },1000)
+    console.log(1)
+    console.log(2)
+    console.log(3)
+    console.log(4)
+    console.log(5)
+    for(let i=10;i<100;i ++) {
+      console.log((1+i)*(2+i)-10)
+    }
+  </script>
+</body>
+</html>
